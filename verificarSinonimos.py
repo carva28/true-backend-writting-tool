@@ -19,16 +19,10 @@ def procurarSinonimos(palavra):
 
     removerTagHtml = remove(palavra)
 
-    special_char_list = ["$", "@", "#", "&", "%","*","**","(",")","'",'"','<','>','{','}','=>','})','})}','}>',"<button type='button' onClick={function incrementHitIndex(){setCount(count + 1)}}>"]
-    # using list comprehension
-    op1 = "".join([k for k in removerTagHtml if k not in special_char_list])
 
-    op2 = ''.join(e for e in palavra if e.isalnum())
+    op1 = ''.join(e for e in palavra if e.isalpha())
 
-    print("test filtro", op2)
-
-    print(f"op1 = ", op1)
-
+    print("test filtro", op1)
 
     palavra_Corrigir = op1
     palavrasSugeridas = []
@@ -53,6 +47,6 @@ def procurarSinonimos(palavra):
     return json_palavrasSugeridas
 
 
-procurarSinonimos('cão$% %&/%#')
+#procurarSinonimos('cão. %&/%#')
 
 

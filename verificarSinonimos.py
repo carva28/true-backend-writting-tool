@@ -6,7 +6,6 @@ import json
 import re
 from nltk.corpus import wordnet as wn
 
-
 my_dict = enchant.DictWithPWL("pt_PT", "palavras.txt")
 #chkr = SpellChecker("pt_PT","palavras.txt")
 chkr = SpellChecker(my_dict)
@@ -23,6 +22,11 @@ def procurarSinonimos(palavra):
     special_char_list = ["$", "@", "#", "&", "%","*","**","(",")","'",'"','<','>','{','}','=>','})','})}','}>',"<button type='button' onClick={function incrementHitIndex(){setCount(count + 1)}}>"]
     # using list comprehension
     op1 = "".join([k for k in removerTagHtml if k not in special_char_list])
+
+    op2 = ''.join(e for e in palavra if e.isalnum())
+
+    print("test filtro", op2)
+
     print(f"op1 = ", op1)
 
 
@@ -49,6 +53,6 @@ def procurarSinonimos(palavra):
     return json_palavrasSugeridas
 
 
-#procurarSinonimos('cão')
+procurarSinonimos('cão$% %&/%#')
 
 

@@ -21,7 +21,6 @@ pbr==5.8.1
 pexpect==4.8.0
 pt-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.2.0/pt_core_news_sm-3.2.0-py3-none-any.whl
 ptyprocess==0.7.0
-PyDictionary==2.0.1
 pyspellchecker==0.6.3
 pyenchant==3.2.2
 pure-eval==0.2.2

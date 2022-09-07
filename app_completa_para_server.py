@@ -69,19 +69,22 @@ def detetaErros():
         elif request.form['conteudo_format'] == "":
             titulo_noticia = request.form['conteudo_noticia']
             array_InfoFormat = ""
-            erros_corrigir = recebeTextoParaDetetar(titulo_noticia, array_InfoFormat)
+            erros_corrigir = recebeTextoParaDetetar(titulo_noticia)
        
             return jsonify({
                 'estado': "enviado correção",
-                'Html_erros': erros_corrigir[0],
-                'sugestoes_erros': erros_corrigir[1], 
-                'palavrasErradas': erros_corrigir[2],
-                'palavraSinonimo': erros_corrigir[3] })
+                'sugestoes_erros': erros_corrigir[0], 
+                'palavrasErradas': erros_corrigir[1],
+                'palavraSinonimo': erros_corrigir[2],
+                'lista_palavrasBemMal': erros_corrigir[3],
+                'lista_posPalavras': erros_corrigir[4],
+                'lista_posPalavrasCorret': erros_corrigir[5],
+                 })
 
         else:
             titulo_noticia = request.form['conteudo_noticia']
             array_InfoFormat = request.form['conteudo_format']
-            erros_corrigir = recebeTextoParaDetetar(titulo_noticia, array_InfoFormat)
+            erros_corrigir = recebeTextoParaDetetar(titulo_noticia)
           
             return jsonify({
                 'estado': "enviado correção",

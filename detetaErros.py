@@ -19,23 +19,11 @@ chkr = SpellChecker(my_dict)
 pos_repeated_clean = []
 pos_repeated_clean_v2 = []
 
+#Limpar Bolds, Italics... Tags
 def remove(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, ' ', text)
 
-""" def hasRepeated(arr):
-    global repeat_Var
-    elements, counts = np.unique(arr, return_counts=True)
-
-    if repeat_Var == -1:
-        print("-----",True)
-        repeat_Var = arr
-    else:
-        if repeat_Var == arr:
-            print("-----",False)
-
-    if np.any(counts != 1): return True
-    return False         """
 
 def verificarPosPalavras(palavraDescoPos, textoCompletoComparar, posARR):
     count = 0
@@ -125,7 +113,7 @@ def verificarPosPalavrasCorretas(palavraDescoPos, textoCompletoComparar, posARR)
     return clean_arr_data_2
 
 
-def recebeTextoParaDetetar(texto, array_InfoFormat):
+def recebeTextoParaDetetar(texto):
 
     textoAcorrigir = ""
     palavras_POS = ""
@@ -139,13 +127,7 @@ def recebeTextoParaDetetar(texto, array_InfoFormat):
     clean_arr_data_2 = []
     unique_values = []
  
-    #print(array_InfoFormat)
-    if(array_InfoFormat != ""):
-        json_ArrayFormat = json.loads(array_InfoFormat)
-        #print("Tem dados")
-    elif array_InfoFormat == "":
-        json_ArrayFormat = []
-        #print("Nao tem dados")
+   
 
     #print(json_ArrayFormat)
     removerTagHtml = remove(texto)
@@ -163,6 +145,7 @@ def recebeTextoParaDetetar(texto, array_InfoFormat):
     textoAcorrigir = op1
     arrayTexto = op1.split()
     arrayTexto_completo = op1.split()
+    #O checker irá verificar os erros no texto que vem do front-end
     chkr.set_text(textoAcorrigir)
 
     palavrasSugeridas = {}
@@ -170,15 +153,28 @@ def recebeTextoParaDetetar(texto, array_InfoFormat):
 
     palavrasErradas = []
     palavras_a_corrigir = []
-    palavras_format = []
 
+
+    p = re.compile("(?=\S*['-])([a-zA-Z'-]+)")
     
+    #Rever a variável do hifen
 
     for err in chkr:
         # print("ERROR:", err.word)
         sug = err.suggest()
-        # err.replace(sug)
-        # print(sug)
+        trim = enchant.utils.trim_suggestions(err.word, sug, 3)
+
+        print(trim)
+
+        print(err.word)
+        print(sug)
+        palavraComHifen = [ s for s in sug if p.match(s) ]
+    
+
+        sug.remove(palavraComHifen[0])
+
+        sug.insert(0,palavraComHifen[0])
+        
         palavraMa = err.word
 
         #print("-------")
@@ -197,7 +193,9 @@ def recebeTextoParaDetetar(texto, array_InfoFormat):
            
             #json_ArrayFormat.pop(1)
 
-     
+    print(palavrasSugeridas)
+    
+
 
    
     palavr_Arra_Origin_Count = []
@@ -316,7 +314,7 @@ def recebeTextoParaDetetar(texto, array_InfoFormat):
 #recebeTextoParaDetetar('<p>Olas")">Olas mundo")">**mundo** caza")">caza</p>')
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mundo jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mundo jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
-#recebeTextoParaDetetar('piUyza  <strong>e,</strong> Rússia voar <strong>jogar</strong> zasz rir <strong>chorar</strong>', "[]")
+#recebeTextoParaDetetar('guardachuva')
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mun do jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
 
 

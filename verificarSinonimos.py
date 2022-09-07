@@ -50,3 +50,4 @@ def procurarSinonimos(palavra):
 #procurarSinonimos('cão. %&/%#')
 
 
+# Verificar palavras repetidas / duplicados, se a letra da palavra começa por maiuscula ou minuscula, plurais / Saber que a palavra vem com espaços e enviar com espaço/maisucula e minuscula

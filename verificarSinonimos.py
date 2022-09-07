@@ -22,7 +22,7 @@ def procurarSinonimos(palavra):
 
     op1 = ''.join(e for e in palavra if e.isalpha())
 
-    print("test filtro", op1)
+    #print("test filtro", op1)
 
     palavra_Corrigir = op1
     palavrasSugeridas = []
@@ -39,15 +39,18 @@ def procurarSinonimos(palavra):
 
     #palavrasSugeridas = chkr.suggest(palavra_Corrigir)
 
+    res = []
+    [res.append(x) for x in palavrasSugeridas if x not in res]
     
-    json_palavrasSugeridas = json.loads(json.dumps(palavrasSugeridas)) 
+    #json_palavrasSugeridas = json.loads(json.dumps(palavrasSugeridas)) 
+    res = json.loads(json.dumps(res)) 
         
-    print(palavrasSugeridas)
+    print(res)
 
-    return json_palavrasSugeridas
+    return res
 
 
-procurarSinonimos('cão. %&/%#')
+procurarSinonimos('pássaro. %&/%#')
 
 
 # Verificar palavras repetidas / duplicados, se a letra da palavra começa por maiuscula ou minuscula, plurais / Saber que a palavra vem com espaços e enviar com espaço/maisucula e minuscula

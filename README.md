@@ -45,3 +45,9 @@ Para ativar o virtual envirnoment deve-se correr o seguinte comando:
 
 
 
+Caso exista problemas na deteção do dicionário português deve-se ir até à pasta do Hunspell e adicionar os ficheiros .dic
+
+No Windows:
+
+``` C:\Users\user\AppData\Local\Programs\Python\Python310\Lib\site-packages\enchant\data\mingw64\share\enchant\hunspell ```
+

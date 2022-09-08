@@ -1,56 +1,48 @@
 import enchant
 from enchant.checker import SpellChecker
-from enchant.checker.CmdLineChecker import CmdLineChecker
-from collections import defaultdict
 import json
-import re
 from nltk.corpus import wordnet as wn
+from Utils.list_cleaner import *
+from Utils.remove_plural import remove_plural_words
 
 my_dict = enchant.DictWithPWL("pt_PT", "palavras.txt")
-#chkr = SpellChecker("pt_PT","palavras.txt")
 chkr = SpellChecker(my_dict)
-
-def remove(text):
-    clean = re.compile('<.*?>')
-    return re.sub(clean, ' ', text)
+max_response_lenght = 3
 
 def procurarSinonimos(palavra):
-    palavra_Corrigir = ""
 
-    removerTagHtml = remove(palavra)
+    item = {
+        'word': clean_special_chars(palavra.lower()), 
+        'isUpper': is_upper_case(palavra), 
+        'startSpace': starts_with_space(palavra), 
+        'endSpace': ends_with_space(palavra)
+        }
 
-
-    op1 = ''.join(e for e in palavra if e.isalpha())
-
-    #print("test filtro", op1)
-
-    palavra_Corrigir = op1
     palavrasSugeridas = []
-    arrayTexto = op1.split()
-    syns = wn.synsets(palavra_Corrigir, lang='por')
+    syns = wn.synsets(item['word'], lang='por')
+
     for syn in syns:
         for lem in syn.lemmas(lang='por'):
             name = lem.name()
-            palavrasSugeridas.append(name)
-            print(name)
+            palavrasSugeridas.append(name.lower())
 
+    # filtrar sugestões
+    filteredList = remove_duplicates(palavrasSugeridas)
+    filteredList = remove_list_item(filteredList, item['word'])
+    filteredList = remove_plural_words(filteredList, item['word'])
+    filteredList = filteredList[:max_response_lenght]
 
-    #chkr.set_text(palavra_Corrigir)
+    if item['isUpper']:
+        filteredList = [e.capitalize() for e in filteredList]
 
-    #palavrasSugeridas = chkr.suggest(palavra_Corrigir)
+    if item['startSpace']:
+        filteredList = [" " + e for e in filteredList]
 
-    res = []
-    [res.append(x) for x in palavrasSugeridas if x not in res]
-    
-    #json_palavrasSugeridas = json.loads(json.dumps(palavrasSugeridas)) 
-    res = json.loads(json.dumps(res)) 
-        
-    print(res)
+    if item['endSpace']:
+        filteredList = [e + " " for e in filteredList]
 
-    return res
+    print("filtered: ", filteredList)
 
+    return json.loads(json.dumps(filteredList))
 
-procurarSinonimos('pássaro. %&/%#')
-
-
-# Verificar palavras repetidas / duplicados, se a letra da palavra começa por maiuscula ou minuscula, plurais / Saber que a palavra vem com espaços e enviar com espaço/maisucula e minuscula
+procurarSinonimos(' Livro ')

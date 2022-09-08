@@ -1,11 +1,33 @@
-
 # Remove palavras plural de uma palavra num lista 
-def remove_plural_words(iList, item = ""):
-    #output = [x for x in iList if check_plural_s(x, item)]
-    
+def remove_plural_words(iList, item):
+    output = [x for x in iList if check_plural_s(x, item)]
+    if output != iList:
+        return output
+
+    output = [x for x in iList if check_plural_s_mn(x, item)]
+    if output != iList:
+        return output
+
+    output = [x for x in iList if check_plural_es(x, item)]
+    if output != iList:
+        return output
+
+    output = [x for x in iList if check_plural_oes(x, item)]
+    if output != iList:
+        return output
+        
+    output = [x for x in iList if check_plural_aes(x, item)]
+    if output != iList:
+        return output
+
+    output = [x for x in iList if check_plural_is(x, item)]
+    if output != iList:
+        return output
+
     output = [x for x in iList if check_plural_ls(x, item)]
-    
-    print(output)
+    if output != iList:
+        return output
+
     return output
     
 # plural com o acrescentamento de um s     
@@ -18,13 +40,6 @@ def check_plural_s(key, item):
 # Ex.: homem - homens; armazém - armazéns; origem - origens
 def check_plural_s_mn(key, item):
     if item[:-1] + "ns" == key:
-        return False
-    return True
-    
-# o plural com acrescentamento de –es: 
-# Ex.: íman - ímanes; espécimen - especímenes; hífen - hífenes;
-def check_plural_es(key, item):
-    if item + "es" == key:
         return False
     return True
     

@@ -162,18 +162,12 @@ def recebeTextoParaDetetar(texto):
     for err in chkr:
         # print("ERROR:", err.word)
         sug = err.suggest()
-        trim = enchant.utils.trim_suggestions(err.word, sug, 3)
 
-        print(trim)
-
-        print(err.word)
-        print(sug)
         palavraComHifen = [ s for s in sug if p.match(s) ]
-    
 
-        sug.remove(palavraComHifen[0])
-
-        sug.insert(0,palavraComHifen[0])
+        if len(palavraComHifen) != 0:
+            sug.remove(palavraComHifen[0])
+            sug.insert(0,palavraComHifen[0])
         
         palavraMa = err.word
 
@@ -314,7 +308,7 @@ def recebeTextoParaDetetar(texto):
 #recebeTextoParaDetetar('<p>Olas")">Olas mundo")">**mundo** caza")">caza</p>')
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mundo jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mundo jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
-#recebeTextoParaDetetar('guardachuva')
+recebeTextoParaDetetar('guardachuva restorante')
 #recebeTextoParaDetetar('Olás  <strong>do</strong> mun do jogar <strong>jogar</strong> jiz jogar <strong>jogar</strong>', "[[\"Olás\",0,\"regular\"],[\"do\",1,\"strong\"],[\"mundo\",2,\"regular\"],[\"jogar\",3,\"regular\"],[\"jogar\",4,\"strong\"],[\"jiz\",5,\"regular\"],[\"jogar\",6,\"regular\"],[\"jogar\",7,\"strong\"]]")
 
 

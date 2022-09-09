@@ -1,20 +1,18 @@
 import enchant
 from enchant.checker import SpellChecker
 from enchant.checker.CmdLineChecker import CmdLineChecker
-from collections import defaultdict
-import json,codecs
+import json
 import re
 from re import search
-from collections import Counter
 import numpy as np
 from pandas import *
 import pandas as pd
 
 repeat_Var = -1
 
-my_dict = enchant.DictWithPWL("pt_PT", "palavras.txt")
-#chkr = SpellChecker("pt_PT","palavras.txt")
-chkr = SpellChecker(my_dict)
+#my_dict = enchant.DictWithPWL("pt_PT", "custom-words.txt")
+d = enchant.Dict("pt_PT")
+chkr = SpellChecker(d)
 
 pos_repeated_clean = []
 pos_repeated_clean_v2 = []
@@ -26,17 +24,12 @@ def remove(text):
 
 #Detetar a Posicao das Palavras Erradas
 def verificarPosPalavras(palavraDescoPos, textoCompletoComparar, posARR):
-    count = 0
-    
-    iupiAr = []
     global pos_repeated_clean
     if posARR == 0:
         pos_repeated_clean = []
     else:
-       
         pos_repeated_clean = pos_repeated_clean 
        
-   
     for match in re.finditer(r'\b%s\b' % palavraDescoPos, textoCompletoComparar):
                 clean_arr_data = []
                 
@@ -51,30 +44,18 @@ def verificarPosPalavras(palavraDescoPos, textoCompletoComparar, posARR):
                 unique_values = np.array(pos_repeated_clean)
                 clean_arr_data = DataFrame(unique_values).drop_duplicates().values
     
-
     #print(clean_arr_data)
         
     return clean_arr_data
 
 #Detetar a Posicao das Palavras Certas para enviar para o Front-End e pintar de preto
 def verificarPosPalavrasCorretas(palavraDescoPos, textoCompletoComparar, posARR):
-    count = 0
-
-    #if posARR == 0:
-    #    print("entas?")
-    
-    #pos_repeated_clean = []
-
-    iupiAr_2 = []
-    
     global pos_repeated_clean_v2
     global clean_arr_data_2
 
     if posARR == 0:
         pos_repeated_clean_v2 = []
-
     else:
-       
         pos_repeated_clean_v2 = pos_repeated_clean_v2 
         #print("whats is the values:",  pos_repeated_clean )
 
@@ -94,23 +75,14 @@ def verificarPosPalavrasCorretas(palavraDescoPos, textoCompletoComparar, posARR)
                 clean_arr_data_2 = DataFrame(unique_values_v2).drop_duplicates().values
     return clean_arr_data_2
 
-
 def recebeTextoParaDetetar(texto):
 
     textoAcorrigir = ""
     palavras_POS = ""
     palavras_POS_corretas = ""
-    result_POS= []
     posicaoPalavras_Errada = pd.DataFrame(None).to_json(orient='split',force_ascii=False)
     posicaoPalavras_Corretas = pd.DataFrame(None).to_json(orient='split',force_ascii=False)
- 
-    pos_repeated_clean = []
-    clean_arr_data = []
-    clean_arr_data_2 = []
-    unique_values = []
-
     removerTagHtml = remove(texto)
-
 
     #Limpar caracteres especial
     special_char_list = ["&nbsp;","$",'"',"@", "#", "&", "%",".",",","*","**","(",")","'",'"',"`","´",'<','>','{','}','=>','})','})}','}>',"<button type='button' class='btn_sinonimos' >","</button>", ]
@@ -118,26 +90,24 @@ def recebeTextoParaDetetar(texto):
     op1 = "".join([k for k in removerTagHtml if k not in special_char_list])
     #print(f"op1 = ", op1)
 
-    
     textoAcorrigir = op1
     arrayTexto = op1.split()
+
     #O checker irá verificar os erros no texto que vem do front-end
     chkr.set_text(textoAcorrigir)
 
     palavrasSugeridas = {}
     arrayTotal_do_texto_escrito_set = []
-
     palavrasErradas = []
-
 
     #Regex para detetar se uma palavra tem hífen
     p = re.compile("(?=\S*['-])([a-zA-Z'-]+)")
     
-
     for err in chkr:
         #Correção que sugere para a palavra com erro
         sug = err.suggest()
 
+        print(sug)
 
         #Ciclo para encontra as sugestões com hífen
         palavraComHifen = [ s for s in sug if p.match(s) ]
@@ -150,7 +120,6 @@ def recebeTextoParaDetetar(texto):
         #Identificar qual é a palavra errada
         palavraMa = err.word
 
-
         if (len(palavraMa) == 1):
             print(True)
         else:
@@ -158,11 +127,6 @@ def recebeTextoParaDetetar(texto):
             palavrasSugeridas.setdefault(err.word, []).append(sug)
           
             palavrasErradas.append(err.word)
-
-    
-    
-
-
    
     palavr_Arra_Origin_Count = []
     contarPalavvras = 0
@@ -172,7 +136,6 @@ def recebeTextoParaDetetar(texto):
         palavr_Arra_Origin_Count.append([quantasPalavrasOriginais,contarPalavvras])
         contarPalavvras = contarPalavvras + 1
         
-
     a = palavr_Arra_Origin_Count
     colocarPalavrasBemMal = []
     arrayTexto_pos_erros = []
@@ -182,8 +145,6 @@ def recebeTextoParaDetetar(texto):
     for count in a:
 
         if count[0] in palavrasErradas:
-  
-       
             colocarPalavrasBemMal.append([count[0],count[1],"errada"])
             arrayTexto.remove(count[0])
             posARR = palavrasErradas.index(count[0])
@@ -206,29 +167,17 @@ def recebeTextoParaDetetar(texto):
                 posARR_v2 = count[1]   
                 palavras_POS_corretas = verificarPosPalavrasCorretas(count[0], textoAcorrigir, posARR_v2)
 
-
-   
-
-    count=0
-
-    pos_repeated_clean = []
+    count = 0
 
     arrayTotal_do_texto_escrito_set = set(arrayTexto)
     palavrasErradas_v2 = set(palavrasErradas)
 
     matches = arrayTotal_do_texto_escrito_set.symmetric_difference(palavrasErradas_v2)
     json_solve_array = list(matches)
-
-
-    
-
-
     palavraRecomendadasParaCorrecao = json.loads(json.dumps(palavrasSugeridas)) 
     array_de_palavras_Mal = json.loads(json.dumps(palavrasErradas)) 
     links_Sinonimo = json.loads(json.dumps(json_solve_array)) 
     lista_palavrasBemMal = json.loads(json.dumps(colocarPalavrasBemMal))
-
-    
 
     #Preparar a lista de posições das palavras erradas e corretas para um JSON
     if len(palavras_POS) > 0:
@@ -241,12 +190,6 @@ def recebeTextoParaDetetar(texto):
     else:
         posicaoPalavras_Corretas =  pd.DataFrame(columns=["nothing"]).to_json(orient='split',force_ascii=False)
 
-
     return palavraRecomendadasParaCorrecao,array_de_palavras_Mal,links_Sinonimo,lista_palavrasBemMal,posicaoPalavras_Errada,posicaoPalavras_Corretas
 
-
-
-
-recebeTextoParaDetetar('guardachuva restorante jogar')
-
-
+recebeTextoParaDetetar('gto passro pássoro pássro')

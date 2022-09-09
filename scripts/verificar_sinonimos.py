@@ -1,12 +1,8 @@
-import enchant
-from enchant.checker import SpellChecker
 import json
 from nltk.corpus import wordnet as wn
-from Utils.list_cleaner import *
-from Utils.remove_plural import remove_plural_words
+from utils.list_cleaner import *
+from utils.remove_plural import remove_plural_words
 
-my_dict = enchant.DictWithPWL("pt_PT", "palavras.txt")
-chkr = SpellChecker(my_dict)
 max_response_lenght = 3
 
 def procurarSinonimos(palavra):
@@ -45,4 +41,4 @@ def procurarSinonimos(palavra):
 
     return json.loads(json.dumps(filteredList))
 
-procurarSinonimos(' Livro ')
+procurarSinonimos('rata')

@@ -1,6 +1,5 @@
 import enchant
 from enchant.checker import SpellChecker
-from enchant.checker.CmdLineChecker import CmdLineChecker
 import json
 import re
 from re import search
@@ -8,12 +7,8 @@ import numpy as np
 from pandas import *
 import pandas as pd
 
-repeat_Var = -1
-
-#my_dict = enchant.DictWithPWL("pt_PT", "custom-words.txt")
-d = enchant.Dict("pt_PT")
-chkr = SpellChecker(d)
-
+my_dict = enchant.Dict("pt_PT")
+chkr = SpellChecker(my_dict)
 pos_repeated_clean = []
 pos_repeated_clean_v2 = []
 
@@ -76,6 +71,7 @@ def verificarPosPalavrasCorretas(palavraDescoPos, textoCompletoComparar, posARR)
     return clean_arr_data_2
 
 def recebeTextoParaDetetar(texto):
+
 
     textoAcorrigir = ""
     palavras_POS = ""
@@ -192,4 +188,4 @@ def recebeTextoParaDetetar(texto):
 
     return palavraRecomendadasParaCorrecao,array_de_palavras_Mal,links_Sinonimo,lista_palavrasBemMal,posicaoPalavras_Errada,posicaoPalavras_Corretas
 
-recebeTextoParaDetetar('gto passro pássoro pássro')
+recebeTextoParaDetetar('Caramulo')

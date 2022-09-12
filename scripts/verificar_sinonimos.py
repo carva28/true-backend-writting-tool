@@ -1,7 +1,7 @@
 import json
 from nltk.corpus import wordnet as wn
-from utils.list_cleaner import *
-from utils.remove_plural import remove_plural_words
+from list_cleaner import *
+from remove_plural import remove_plural_words
 
 max_response_lenght = 3
 
@@ -41,4 +41,4 @@ def procurarSinonimos(palavra):
 
     return json.loads(json.dumps(filteredList))
 
-procurarSinonimos('rata')
+procurarSinonimos('')

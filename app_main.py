@@ -25,36 +25,13 @@ def index():
 def detetaErros():
     if request.method == 'POST':
         #Verifica se algum campo está vazio
-        if(request.form['conteudo_noticia'] == "" and request.form['conteudo_format'] == ""):
+        if(request.form['conteudo_noticia'] == "" ):
             return jsonify({'estado': "As variáveis submetidas estão vazias"})
 
-        elif request.form['conteudo_format'] == "":
-            titulo_noticia = request.form['conteudo_noticia']
-            erros_corrigir = recebeTextoParaDetetar(titulo_noticia)
-       
-            return jsonify({
-                'estado': "enviado correção",
-                'sugestoes_erros': erros_corrigir[0], 
-                'palavrasErradas': erros_corrigir[1],
-                'palavraSinonimo': erros_corrigir[2],
-                'lista_palavrasBemMal': erros_corrigir[3],
-                'lista_posPalavras': erros_corrigir[4],
-                'lista_posPalavrasCorret': erros_corrigir[5],
-                 })
-
         else:
-            titulo_noticia = request.form['conteudo_noticia']
-            erros_corrigir = recebeTextoParaDetetar(titulo_noticia)
+            erros_corrigir = recebeTextoParaDetetar(request.form['conteudo_noticia'])
           
-            return jsonify({
-                'estado': "enviado correção",
-                'sugestoes_erros': erros_corrigir[0], 
-                'palavrasErradas': erros_corrigir[1],
-                'palavraSinonimo': erros_corrigir[2],
-                'lista_palavrasBemMal': erros_corrigir[3],
-                'lista_posPalavras': erros_corrigir[4],
-                'lista_posPalavrasCorret': erros_corrigir[5],
-                 })
+            return erros_corrigir 
 
     return "Não recebemos informação porque está em GET"
 

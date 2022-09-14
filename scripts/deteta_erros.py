@@ -7,10 +7,12 @@ import numpy as np
 from pandas import *
 import pandas as pd
 
+
 my_dict = enchant.Dict("pt_PT")
 chkr = SpellChecker(my_dict)
 pos_repeated_clean = []
 pos_repeated_clean_v2 = []
+max_response_lenght = 3
 
 #Limpar Bolds, Italics... Tags
 def remove(text):
@@ -103,15 +105,20 @@ def recebeTextoParaDetetar(texto):
         #Correção que sugere para a palavra com erro
         sug = err.suggest()
 
-        print(sug)
+
+
+        threeElement = sug[:max_response_lenght]
+    
+        #print(threeElement)
+        #print(sug)
 
         #Ciclo para encontra as sugestões com hífen
-        palavraComHifen = [ s for s in sug if p.match(s) ]
+        palavraComHifen = [ s for s in threeElement if p.match(s) ]
 
         #Se tiver hífen então acrescenta essa opção em primeiro lugar
         if len(palavraComHifen) != 0:
-            sug.remove(palavraComHifen[0])
-            sug.insert(0,palavraComHifen[0])
+            threeElement.remove(palavraComHifen[0])
+            threeElement.insert(0,palavraComHifen[0])
         
         #Identificar qual é a palavra errada
         palavraMa = err.word
@@ -120,7 +127,7 @@ def recebeTextoParaDetetar(texto):
             print(True)
         else:
             #Guardar a lista de palavras sugeridas para a correção
-            palavrasSugeridas.setdefault(err.word, []).append(sug)
+            palavrasSugeridas.setdefault(err.word, []).append(threeElement)
           
             palavrasErradas.append(err.word)
    
@@ -175,6 +182,8 @@ def recebeTextoParaDetetar(texto):
     links_Sinonimo = json.loads(json.dumps(json_solve_array)) 
     lista_palavrasBemMal = json.loads(json.dumps(colocarPalavrasBemMal))
 
+    palavraRecomendadasParaCorrecao = json.loads(json.dumps(palavrasSugeridas)) 
+
     #Preparar a lista de posições das palavras erradas e corretas para um JSON
     if len(palavras_POS) > 0:
         posicaoPalavras_Errada =  pd.DataFrame(columns=palavras_POS).to_json(orient='split',force_ascii=False)
@@ -188,4 +197,4 @@ def recebeTextoParaDetetar(texto):
 
     return palavraRecomendadasParaCorrecao,array_de_palavras_Mal,links_Sinonimo,lista_palavrasBemMal,posicaoPalavras_Errada,posicaoPalavras_Corretas
 
-recebeTextoParaDetetar('Caramulo')
+recebeTextoParaDetetar('tentay')

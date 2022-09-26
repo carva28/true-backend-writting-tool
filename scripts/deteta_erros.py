@@ -6,6 +6,8 @@ from re import search
 import numpy as np
 from pandas import *
 import pandas as pd
+import flask
+from flask import jsonify
 
 
 my_dict = enchant.Dict("pt_PT")
@@ -193,6 +195,13 @@ def recebeTextoParaDetetar(texto):
     else:
         posicaoPalavras_Corretas =  pd.DataFrame(columns=[]).to_json(orient='split',force_ascii=False)
 
-    return palavraRecomendadasParaCorrecao,array_de_palavras_Mal,links_Sinonimo,lista_palavrasBemMal,posicaoPalavras_Errada,posicaoPalavras_Corretas
+    response = jsonify({
+            'estado': "enviado correção",
+            'sugestoes_erros': palavraRecomendadasParaCorrecao, 
+            'palavrasErradas': array_de_palavras_Mal,
+            'lista_palavrasBemMal': lista_palavrasBemMal,
+            'lista_posPalavras': posicaoPalavras_Errada,
+            'lista_posPalavrasCorret': posicaoPalavras_Corretas,
+            })
 
 recebeTextoParaDetetar('tentay')

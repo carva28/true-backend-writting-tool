@@ -105,8 +105,6 @@ def recebeTextoParaDetetar(texto):
         #Correção que sugere para a palavra com erro
         sug = err.suggest()
 
-
-
         threeElement = sug[:max_response_lenght]
     
         #print(threeElement)
@@ -188,12 +186,12 @@ def recebeTextoParaDetetar(texto):
     if len(palavras_POS) > 0:
         posicaoPalavras_Errada =  pd.DataFrame(columns=palavras_POS).to_json(orient='split',force_ascii=False)
     else:
-        posicaoPalavras_Errada = pd.DataFrame(columns=["nothing"]).to_json(orient='split',force_ascii=False)
+        posicaoPalavras_Errada = pd.DataFrame(columns=[]).to_json(orient='split',force_ascii=False)
 
     if len(palavras_POS_corretas) > 0:
         posicaoPalavras_Corretas =  pd.DataFrame(columns=palavras_POS_corretas).to_json(orient='split',force_ascii=False)
     else:
-        posicaoPalavras_Corretas =  pd.DataFrame(columns=["nothing"]).to_json(orient='split',force_ascii=False)
+        posicaoPalavras_Corretas =  pd.DataFrame(columns=[]).to_json(orient='split',force_ascii=False)
 
     return palavraRecomendadasParaCorrecao,array_de_palavras_Mal,links_Sinonimo,lista_palavrasBemMal,posicaoPalavras_Errada,posicaoPalavras_Corretas
 

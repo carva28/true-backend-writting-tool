@@ -25,8 +25,9 @@ def index():
 def detetaErros():
     if request.method == 'POST':
         #Verifica se algum campo está vazio
-        if(request.form['conteudo_noticia'] == "" and request.form['conteudo_format'] == ""):
+        if(request.form['conteudo_noticia'] == "" ):
             return jsonify({'estado': "As variáveis submetidas estão vazias"})
+
         else:
             results = checkText(request.form['conteudo_noticia'])
             jsdata = json.dumps({"results": results})

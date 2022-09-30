@@ -1,7 +1,7 @@
 import json
 from nltk.corpus import wordnet as wn
-from utils.list_cleaner import *
-from utils.remove_plural import remove_plural_words
+from .list_cleaner import *
+from .remove_plural import remove_plural_words
 
 max_response_lenght = 3
 
@@ -17,9 +17,11 @@ def procurarSinonimos(palavra):
     palavrasSugeridas = []
     syns = wn.synsets(item['word'], lang='por')
 
+
     for syn in syns:
         for lem in syn.lemmas(lang='por'):
             name = lem.name()
+            name = name.replace("_", " ")
             palavrasSugeridas.append(name.lower())
 
     # filtrar sugestões
@@ -41,4 +43,4 @@ def procurarSinonimos(palavra):
 
     return json.loads(json.dumps(filteredList))
 
-procurarSinonimos('rata')
+#procurarSinonimos('assim')

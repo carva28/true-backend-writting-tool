@@ -1,13 +1,5 @@
 import difflib as dl
 
-str1 = "Testes"
-str2 = "testes"
-str3 = "teste"
-sug = ["exame","funis","alemães","perdigões","téste", "homens", "imanes"]
-
-print("init: ")
-print(sug)
-
 # remove duplicates in list while maintaining order
 def remove_duplicates(iList):
     output = list(dict.fromkeys(iList))
@@ -95,6 +87,3 @@ def check_plural_ls(key, item):
     if item[:-1] + "s" == key:
         return False
     return True    
-
-remove_plural_words(sug, "funil")
-

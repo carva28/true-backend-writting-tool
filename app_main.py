@@ -28,18 +28,9 @@ def detetaErros():
         if(request.form['conteudo_noticia'] == "" and request.form['conteudo_format'] == ""):
             return jsonify({'estado': "As variáveis submetidas estão vazias"})
         else:
-            titulo_noticia = request.form['conteudo_noticia']
-            erros_corrigir = recebeTextoParaDetetar(titulo_noticia)
-          
-            return jsonify({
-                'estado': "enviado correção",
-                'sugestoes_erros': erros_corrigir[0], 
-                'palavrasErradas': erros_corrigir[1],
-                'palavraSinonimo': erros_corrigir[2],
-                'lista_palavrasBemMal': erros_corrigir[3],
-                'lista_posPalavras': erros_corrigir[4],
-                'lista_posPalavrasCorret': erros_corrigir[5],
-                 })
+            results = checkText(request.form['conteudo_noticia'])
+            jsdata = json.dumps({"results": results})
+            return jsdata
 
     return "Não recebemos informação porque está em GET"
 

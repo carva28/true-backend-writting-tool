@@ -17,7 +17,6 @@ def procurarSinonimos(palavra):
     palavrasSugeridas = []
     syns = wn.synsets(item['word'], lang='por')
 
-
     for syn in syns:
         for lem in syn.lemmas(lang='por'):
             name = lem.name()

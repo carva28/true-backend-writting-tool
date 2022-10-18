@@ -1,8 +1,10 @@
+import json
 import flask
 from flask import request, jsonify
-from scripts.deteta_erros import *
+from scripts.deteta_erros import checkText
 from flask_cors import CORS
-from scripts.verificar_sinonimos import *
+from scripts.verificar_sinonimos import procurarSinonimos
+from scripts.check_plagiarism import checkPlagirism
 
 app = flask.Flask(__name__)
 
@@ -21,36 +23,37 @@ def index():
     """
 
 #""" Rota para detetar erros no texto escrito"""
-@app.route('/true/detetarErros', methods=['POST', 'GET'])
+@app.route('/true/detetarErros', methods=['POST'])
 def detetaErros():
-    if request.method == 'POST':
-        #Verifica se algum campo está vazio
-        if(request.form['conteudo_noticia'] == "" ):
-            return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    text = request.form['conteudo_noticia']
+    if(text == "" ):
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
 
-        else:
-            results = checkText(request.form['conteudo_noticia'])
-            jsdata = json.dumps({"results": results})
-            return jsdata
+    else:
+        results = checkText(text)
+        jsdata = json.dumps({"results": results})
+        return jsdata
 
-    return "Não recebemos informação porque está em GET"
-
-@app.route('/true/sinonimos', methods=['POST', 'GET'])
+@app.route('/true/sinonimos', methods=['POST'])
 def apresentaSinonimos():
-    if request.method == 'POST':
-        if(request.form['sinonimos'] == ""):
-            return jsonify({'estado': "As variáveis submetidas estão vazias"})
-        else:
-            palavra_pesquisar = request.form['sinonimos']
-            sinonimos_Sistema = procurarSinonimos(palavra_pesquisar)
-            print(palavra_pesquisar)
-            print("-------------------------")
-            print(sinonimos_Sistema)
-            return jsonify({
-                'estado': "enviado sinonimo",
-                'palavras_enviados': sinonimos_Sistema, })
+    word = request.form['sinonimos']
+    if(word == ""):
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    else:
+        sinonimos = procurarSinonimos(word)
+        return jsonify({
+            'estado': "enviado sinonimo",
+            'palavras_enviados': sinonimos, })
 
-    return "Não recebemos informação porque está em G"
+@app.route('/true/plagcheck', methods=['POST'])
+def checkPlagerism():
+    text = request.form['text']
+    if(text == ""):
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    else:
+        results = checkPlagirism(text)
+        jsdata = json.dumps({"results": results})
+        return jsdata
 
 if __name__ == '__main__':  
     app.run(host='0.0.0.0', port=80)

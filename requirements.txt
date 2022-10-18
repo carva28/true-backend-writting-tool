@@ -30,3 +30,6 @@ spacy-loggers==1.0.1
 spacy-wordnet==0.0.5
 textblob==0.17.1
 tqdm==4.62.3
+beautifulsoup4==4.11.1
+google==3.0.0
+jellyfish==0.9.0

@@ -1,10 +1,10 @@
 import json
 import flask
 from flask import request, jsonify
-from scripts.deteta_erros import checkText
+from scripts.deteta_erros import check_text
 from flask_cors import CORS
-from scripts.verificar_sinonimos import procurarSinonimos
-from scripts.check_plagiarism import checkPlagirism
+from scripts.verificar_sinonimos import procurar_sinonimos
+from scripts.check_plagiarism import check_plagirism
 
 app = flask.Flask(__name__)
 
@@ -23,35 +23,35 @@ def index():
     """
 
 #""" Rota para detetar erros no texto escrito"""
-@app.route('/true/detetarErros', methods=['POST'])
-def detetaErros():
-    text = request.form['conteudo_noticia']
-    if(text == "" ):
+@app.route('/true/check-errors', methods=['POST'])
+def check_errors():
+    text = request.form['text']
+    if text == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
 
     else:
-        results = checkText(text)
+        results = check_text(text)
         jsdata = json.dumps({"results": results})
         return jsdata
 
-@app.route('/true/sinonimos', methods=['POST'])
-def apresentaSinonimos():
+@app.route('/true/related-words', methods=['POST'])
+def related_words():
     word = request.form['sinonimos']
-    if(word == ""):
+    if word == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        sinonimos = procurarSinonimos(word)
+        related_words = procurar_sinonimos(word)
         return jsonify({
             'estado': "enviado sinonimo",
-            'palavras_enviados': sinonimos, })
+            'palavras_enviados': related_words })
 
-@app.route('/true/plagcheck', methods=['POST'])
-def checkPlagerism():
+@app.route('/true/check-plagiarism', methods=['POST'])
+def check_plagiarism():
     text = request.form['text']
-    if(text == ""):
+    if text == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        results = checkPlagirism(text)
+        results = check_plagirism(text)
         jsdata = json.dumps({"results": results})
         return jsdata
 

@@ -31,11 +31,11 @@ def add_stop_words(word_list):
     with open(file_path, 'a') as fp:
         for item in tokenized_list:
             # check if item already exists
-            if check_if_exists(item) == False:
+            if not check_if_exists(item):
                 # write each item in lower case on a new line
                 fp.write("%s\n" % item.lower())
 
-    return("Added words to black list")
+    return "Added words to black list"
 
 def remove_stop_word(word):
     with open(file_path, "r+") as f:
@@ -46,7 +46,7 @@ def remove_stop_word(word):
                 f.write(i)
         f.truncate()
 
-    return("Removed word from black list")
+    return "Removed word from black list"
 
 def check_if_exists(word):
     words = get_stop_words()

@@ -1,4 +1,9 @@
 import difflib as dl
+    
+# convert all character to lower case
+def to_lowercase(item):
+    output = item.lower()
+    return output
 
 # remove duplicates in list while maintaining order
 def remove_duplicates(iList):

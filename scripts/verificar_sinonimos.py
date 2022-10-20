@@ -5,7 +5,7 @@ from .remove_plural import remove_plural_words
 
 max_response_lenght = 3
 
-def procurarSinonimos(palavra):
+def procurar_sinonimos(palavra):
 
     item = {
         'word': clean_special_chars(palavra.lower()), 
@@ -42,4 +42,4 @@ def procurarSinonimos(palavra):
 
     return json.loads(json.dumps(filteredList))
 
-#procurarSinonimos('assim')
+# procurar_sinonimos('assim')

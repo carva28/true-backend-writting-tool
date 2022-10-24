@@ -2,8 +2,6 @@ from nltk.tokenize import word_tokenize
 
 file_path = "./data/black_list.txt"
 
-simple_text = "A professora é uma puta de merda."
-
 def filter_list(iList):
     tokenized_list = word_tokenize(iList)
     stop_words = get_stop_words()
@@ -55,6 +53,4 @@ def check_if_exists(word):
         return True
     return False
 
-#add_stop_words("ConA pUta mERda")
-#filter_list(simple_text)
-#remove_stop_word("ca")
+simple_text = "A professora é uma puta de merda."

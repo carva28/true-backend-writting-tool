@@ -1,10 +1,11 @@
 import json
 import flask
-from flask import request, jsonify
+from flask import request, jsonify, send_file
 from scripts.deteta_erros import check_text
 from flask_cors import CORS
 from scripts.verificar_sinonimos import procurar_sinonimos
 from scripts.check_plagiarism import check_plagirism
+from scripts.custom_words import *
 
 app = flask.Flask(__name__)
 
@@ -55,5 +56,37 @@ def check_plagiarism():
         jsdata = json.dumps({"results": results})
         return jsdata
 
+@app.route('/true/pwl/add', methods=['POST'])
+def add_word():
+    word = request.form['word']
+    if word == "":
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    else:
+        result = add_personal_word(word)
+        return jsonify({"Added word": word})
+
+@app.route('/true/pwl/remove', methods=['POST'])
+def remove_word():
+    word = request.form['word']
+    if word == "":
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    else:
+        result = remove_personal_word(word)
+        return jsonify({"Removed word": word})
+
+@app.route('/true/pwl/list', methods=['GET'])
+def get_personal_word():
+    result = get_all_words()
+    return jsonify({"results": result})
+
+@app.route('/true/zip', methods=['POST'])
+def get_zip_file():
+    # local = request.form['local']
+    # file = get_shape_file(local)
+
+    # return file
+    return send_file('C://Figueira.zip', attachment_filename='Figueira.zip')
+
+        
 if __name__ == '__main__':  
     app.run(host='0.0.0.0', port=80)

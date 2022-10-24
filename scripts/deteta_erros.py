@@ -1,7 +1,7 @@
 import enchant
 from enchant.checker import SpellChecker
 
-chkr = SpellChecker(enchant.Dict("pt_PT"))
+chkr = SpellChecker(enchant.DictWithPWL("pt_PT", "data\personal_word_list.txt"))
 
 class CorrectionResult:
     def __init__(self, word="", correct=False, suggestion="", start_range=0, end_range=0):

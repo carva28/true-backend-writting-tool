@@ -85,7 +85,7 @@ def get_zip_file():
     # file = get_shape_file(local)
 
     # return file
-    return send_file('C://Figueira.zip', attachment_filename='Figueira.zip')
+    return send_file('C://ShapeFiles/Figueira.zip', attachment_filename='Figueira.zip')
 
         
 if __name__ == '__main__':  

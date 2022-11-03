@@ -81,11 +81,16 @@ def get_personal_word():
 
 @app.route('/true/zip', methods=['POST'])
 def get_zip_file():
-    # local = request.form['local']
-    # file = get_shape_file(local)
+    local = request.form['local']
+    if(local == "Ericeira"):
+        file_path = 'C://ShapeFiles/Ericeira.zip'
+        file_name = 'Ericeira.zip'
+    elif(local == "Figueira"):
+        file_path = 'C://ShapeFiles/Figueira.zip'
+        file_name = 'Figueira.zip'
 
     # return file
-    return send_file('C://ShapeFiles/Figueira.zip', attachment_filename='Figueira.zip')
+    return send_file(file_path, attachment_filename=file_name)
 
         
 if __name__ == '__main__':  

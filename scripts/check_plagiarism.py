@@ -23,7 +23,7 @@ def check_plagirism(input):
     response = []
 
     for sentence in tokenized_text:
-        google_results = search(sentence, tld="pt", num=10, stop=3, pause=2)
+        google_results = search(sentence, tld="pt", num=1, stop=1, pause=2)
 
         for url in google_results:
             res = scraper.get(url)
@@ -34,7 +34,7 @@ def check_plagirism(input):
             for paragraph in html_parse.find_all("p"):
                 text = BeautifulSoup.get_text(paragraph)
                 ratio = jaro_distance(text, sentence)
-
+                
                 if ratio > 0.8:
                     response.append(PlagiarismResult(url, ratio, text))
 

@@ -25,6 +25,10 @@ def check_last_char(word):
     if any(word[-1] in char for char in valid_chars):
         if word[0] == "'" or word[0] == '"':
             return word[1:-1]
+        elif word[-1] == "." and word[-2] == '"':
+            return word[:-2]
+        elif word[-1] == "." and word[-2] == "'":
+            return word[:-2]     
         else:
             return word[:-1]
     else:

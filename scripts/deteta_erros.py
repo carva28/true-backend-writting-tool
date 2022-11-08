@@ -100,5 +100,3 @@ def check_text(text):
     results = [obj.to_dict() for obj in words]
 
     return results
-
-check_text("2 20 20,12 20.11 20% 20,2%")

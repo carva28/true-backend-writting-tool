@@ -1,6 +1,6 @@
 from OpenSSL.crypto import *
 
-passwd = 'ZBfCHxtjWJ_6werd'
+passwd = b'ZBfCHxtjWJ_6werd'
 p12 = load_pkcs12(open('deca-true_ua_pt.pfx', 'rb').read(), passwd)
 
 #If you don't have a password, un-comment the below this:

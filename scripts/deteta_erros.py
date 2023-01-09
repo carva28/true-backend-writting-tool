@@ -94,8 +94,6 @@ def check_text(text):
         word.suggestion = sugestion[0] if sugestion else ""
 
         print(word.word, " ", word.correct)
-        print("-----")
-
    
     results = [obj.to_dict() for obj in words]
 

@@ -7,6 +7,8 @@ from scripts.verificar_sinonimos import procurar_sinonimos
 from scripts.check_plagiarism import check_plagirism
 from scripts.custom_words import *
 
+context = ('cert.pem', 'pkey.pem')
+
 app = flask.Flask(__name__)
 
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -79,19 +81,5 @@ def get_personal_word():
     result = get_all_words()
     return jsonify({"results": result})
 
-@app.route('/true/zip', methods=['POST'])
-def get_zip_file():
-    local = request.form['local']
-    if(local == "Ericeira"):
-        file_path = 'C://ShapeFiles/Ericeira.zip'
-        file_name = 'Ericeira.zip'
-    elif(local == "Figueira"):
-        file_path = 'C://ShapeFiles/Figueira.zip'
-        file_name = 'Figueira.zip'
-
-    # return file
-    return send_file(file_path, attachment_filename=file_name)
-
-        
 if __name__ == '__main__':  
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, ssl_context=context)

@@ -7,7 +7,7 @@ from scripts.verificar_sinonimos import procurar_sinonimos
 from scripts.check_plagiarism import check_plagirism
 from scripts.custom_words import *
 
-context = ('llama_cert.pem', 'llama.key')
+context = ('cert.pem', 'pkey.pem')
 
 app = flask.Flask(__name__)
 

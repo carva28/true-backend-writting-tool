@@ -1,12 +1,13 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 from .list_cleaner import *
 
 baseURL = "https://www.infopedia.pt/dicionarios/lingua-portuguesa/"
 divId = "relacoesSinonimosContainer"
-max_response_lenght = 3
+max_response_lenght = 4
 
-def scrapSynonyms(word):
+def scrap_synonyms(word):
 
     item = {
         'isUpper': is_upper_case(word), 
@@ -24,6 +25,8 @@ def scrapSynonyms(word):
         synonym = element.text.strip()
         synonymsList.append(synonym)
 
+    synonymsList = synonymsList[:max_response_lenght]
+
     if item['isUpper']:
         synonymsList = [e.capitalize() for e in synonymsList]
 
@@ -34,5 +37,6 @@ def scrapSynonyms(word):
         synonymsList = [e + " " for e in synonymsList]    
 
     print(synonymsList)
+    return json.loads(json.dumps(synonymsList))
 
-scrapSynonyms("guerra")
+scrap_synonyms("Guerra")

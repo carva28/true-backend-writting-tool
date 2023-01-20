@@ -6,6 +6,7 @@ from flask_cors import CORS
 from scripts.verificar_sinonimos import procurar_sinonimos
 from scripts.check_plagiarism import check_plagirism
 from scripts.custom_words import *
+from scripts.synonyms_scrapper import *
 
 context = ('cert.pem', 'pkey.pem')
 
@@ -43,7 +44,8 @@ def related_words():
     if word == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        related_words = procurar_sinonimos(word)
+        # related_words = procurar_sinonimos(word)
+        synonyms = scrap_synonyms(word)
         return jsonify({
             'estado': "enviado sinonimo",
             'palavras_enviados': related_words })

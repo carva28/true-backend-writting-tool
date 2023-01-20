@@ -1,5 +1,4 @@
 import requests
-import json
 from bs4 import BeautifulSoup
 from .list_cleaner import *
 
@@ -19,6 +18,10 @@ def scrap_synonyms(word):
     page = requests.get(baseURL + word)
     soup = BeautifulSoup(page.content, "html.parser")
     synonyms_container = soup.find(id = divId)
+
+    if synonyms_container == None:
+        return
+
     results = synonyms_container.find_all("a")
 
     for element in results:

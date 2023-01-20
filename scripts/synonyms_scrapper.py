@@ -37,6 +37,6 @@ def scrap_synonyms(word):
         synonymsList = [e + " " for e in synonymsList]    
 
     print(synonymsList)
-    return json.loads(json.dumps(synonymsList))
+    return synonymsList
 
 scrap_synonyms("Guerra")

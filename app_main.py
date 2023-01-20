@@ -46,9 +46,9 @@ def related_words():
     else:
         # related_words = procurar_sinonimos(word)
         synonyms = scrap_synonyms(word)
-        return jsonify({
-            'estado': "enviado sinonimo",
-            'palavras_enviados': related_words })
+        result = json.dumps({"palavras_enviados": synonyms})
+        return result
+        
 
 @app.route('/true/check-plagiarism', methods=['POST'])
 def check_plagiarism():

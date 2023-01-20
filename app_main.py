@@ -44,7 +44,6 @@ def related_words():
     if word == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        # related_words = procurar_sinonimos(word)
         synonyms = scrap_synonyms(word)
         result = json.dumps({"palavras_enviados": synonyms})
         return result

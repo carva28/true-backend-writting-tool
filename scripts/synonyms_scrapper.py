@@ -18,7 +18,7 @@ def scrap_synonyms(word):
     synonymsList = []
     page = requests.get(baseURL + word)
     soup = BeautifulSoup(page.content, "html.parser")
-    synonyms_container = soup.find(id=divId)
+    synonyms_container = soup.find(id = divId)
     results = synonyms_container.find_all("a")
 
     for element in results:
@@ -36,7 +36,4 @@ def scrap_synonyms(word):
     if item['endSpace']:
         synonymsList = [e + " " for e in synonymsList]    
 
-    print(synonymsList)
     return synonymsList
-
-scrap_synonyms("Guerra")

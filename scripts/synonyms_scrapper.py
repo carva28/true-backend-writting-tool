@@ -20,7 +20,7 @@ def scrap_synonyms(word):
     synonyms_container = soup.find(id = divId)
 
     if synonyms_container == None:
-        return
+        return synonymsList
 
     results = synonyms_container.find_all("a")
 

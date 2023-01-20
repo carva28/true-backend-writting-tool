@@ -3,7 +3,6 @@ import flask
 from flask import request, jsonify, send_file
 from scripts.deteta_erros import check_text
 from flask_cors import CORS
-from scripts.verificar_sinonimos import procurar_sinonimos
 from scripts.check_plagiarism import check_plagirism
 from scripts.custom_words import *
 from scripts.synonyms_scrapper import *

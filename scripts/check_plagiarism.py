@@ -3,6 +3,7 @@ from googlesearch import search
 from bs4 import BeautifulSoup
 import jellyfish
 import cloudscraper
+import requests
 
 class PlagiarismResult:
     def __init__(self, url, ratio, sentence):
@@ -18,7 +19,7 @@ class PlagiarismResult:
 
 scraper = cloudscraper.create_scraper()
 
-def check_plagirism(input):
+def check_plagirism(input, newsID):
     tokenized_text = split_text(input)
     response = []
 
@@ -39,6 +40,10 @@ def check_plagirism(input):
                     response.append(PlagiarismResult(url, ratio, text))
 
     results = [obj.to_dict() for obj in response]
+
+    print("-------")
+    print(results)
+
     return results
 
 def split_text(text):

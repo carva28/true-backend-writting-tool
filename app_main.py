@@ -50,11 +50,12 @@ def related_words():
 
 @app.route('/true/check-plagiarism', methods=['POST'])
 def check_plagiarism():
+    newsID = request.form['newsID']
     text = request.form['text']
     if text == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        results = check_plagirism(text)
+        results = check_plagirism(text, newsID)
         jsdata = json.dumps({"results": results})
         return jsdata
 

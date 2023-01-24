@@ -81,7 +81,7 @@ def check_text(text):
         del words[-1]
 
     for word in words:
-        print("initial word ", word.word)
+        #print("initial word ", word.word)
         # check if is number with special char
         if(word.word[0].isnumeric()):
             word.word = check_valid_number(word.word)
@@ -93,7 +93,7 @@ def check_text(text):
         sugestion = chkr.suggest(word.word)
         word.suggestion = sugestion[0] if sugestion else ""
 
-        print(word.word, " ", word.correct)
+        #print(word.word, " ", word.correct)
    
     results = [obj.to_dict() for obj in words]
 

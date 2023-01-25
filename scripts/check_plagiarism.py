@@ -18,11 +18,9 @@ class PlagiarismResult:
             "sentence": self.sentence}
 
 scraper = cloudscraper.create_scraper()
-
 urlUpdateNews = "https://true-project.mog-technologies.com/back-office/news/"
-headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZjY2NWFjNmY4MjNkMDAxMzdkZDgwYyIsImlhdCI6MTY3NDIyNjAxMSwiZXhwIjoxNjc2ODE4MDExfQ.lgU4ZGrt8akh30TV-R_gwaE-mW27pM91J_RiFe63UWE"}
 
-def check_plagirism(input, newsID):
+def check_plagirism(input, newsID, token):
 
     #print("newsID: ---", newsID)
     #print("input: ----", input)
@@ -47,16 +45,13 @@ def check_plagirism(input, newsID):
                     response.append(PlagiarismResult(url, ratio, text))
 
     results = [obj.to_dict() for obj in response]
-    #print(results)
-    
+
+    headers = {"Authorization": token}
     endpoint = urlUpdateNews + newsID
     payload = {'plagiarized': results}
     
     r = requests.put(endpoint, json=payload, headers=headers)
     
-    #print(r)
-    #print(r.content)
-
     return results
 
 def split_text(text):

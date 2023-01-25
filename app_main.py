@@ -52,10 +52,12 @@ def related_words():
 def check_plagiarism():
     newsID = request.form['newsID']
     text = request.form['text']
+    token = request.form['token']
+    
     if text == "":
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
-        results = check_plagirism(text, newsID)
+        results = check_plagirism(text, newsID, token)
         jsdata = json.dumps({"results": results})
         return jsdata
 

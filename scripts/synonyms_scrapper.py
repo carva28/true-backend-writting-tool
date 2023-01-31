@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 from .list_cleaner import *
+import cloudscraper
 
 baseURL = "https://www.infopedia.pt/dicionarios/lingua-portuguesa/"
 divId = "relacoesSinonimosContainer"
+divId = "relacoesSinonimosContainer"
 max_response_lenght = 4
+scraper = cloudscraper.create_scraper()
 
 def scrap_synonyms(word):
 
@@ -15,11 +18,17 @@ def scrap_synonyms(word):
     }
 
     synonymsList = []
-    page = requests.get(baseURL + word)
-    soup = BeautifulSoup(page.content, "html.parser")
+    
+    res = scraper.get(baseURL + word)
+    html_page = res.content
+    soup = BeautifulSoup(html_page, 'html.parser')
+    
+    #page = requests.get(baseURL + word)
+    print("soup: ", soup)
     synonyms_container = soup.find(id = divId)
 
     if synonyms_container == None:
+        print("cant find container")
         return synonymsList
 
     results = synonyms_container.find_all("a")

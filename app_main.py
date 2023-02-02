@@ -6,6 +6,7 @@ from flask_cors import CORS
 from scripts.check_plagiarism import check_plagirism
 from scripts.custom_words import *
 from scripts.synonyms_scrapper import *
+from scripts.extract_entities import *
 
 context = ('cert.pem', 'pkey.pem')
 
@@ -58,6 +59,17 @@ def check_plagiarism():
         return jsonify({'estado': "As variáveis submetidas estão vazias"})
     else:
         results = check_plagirism(text, newsID, token)
+        jsdata = json.dumps({"results": results})
+        return jsdata
+
+@app.route('/true/extract-entities', methods=['POST'])
+def check_entities():
+    text = request.form['text']
+    
+    if text == "":
+        return jsonify({'estado': "As variáveis submetidas estão vazias"})
+    else:
+        results = extract_entities(text)
         jsdata = json.dumps({"results": results})
         return jsdata
 

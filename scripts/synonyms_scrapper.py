@@ -5,8 +5,7 @@ import cloudscraper
 
 baseURL = "https://www.infopedia.pt/dicionarios/lingua-portuguesa/"
 divId = "relacoesSinonimosContainer"
-divId = "relacoesSinonimosContainer"
-max_response_lenght = 4
+max_response_lenght = 7
 scraper = cloudscraper.create_scraper()
 
 def scrap_synonyms(word):
@@ -22,9 +21,6 @@ def scrap_synonyms(word):
     res = scraper.get(baseURL + word)
     html_page = res.content
     soup = BeautifulSoup(html_page, 'html.parser')
-    
-    #page = requests.get(baseURL + word)
-    print("soup: ", soup)
     synonyms_container = soup.find(id = divId)
 
     if synonyms_container == None:
@@ -48,4 +44,7 @@ def scrap_synonyms(word):
     if item['endSpace']:
         synonymsList = [e + " " for e in synonymsList]    
 
+    # print(synonymsList)
+
     return synonymsList
+ 

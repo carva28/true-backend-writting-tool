@@ -1,6 +1,5 @@
 import difflib as dl
 
-# 
 def remove_plural_words(iList, item = ""):
     output = [x for x in iList if check_plural_s(x, item)]
     output = [x for x in iList if check_plural_s_mn(x, item)]
